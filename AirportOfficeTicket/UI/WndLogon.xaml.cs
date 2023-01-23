@@ -20,12 +20,16 @@ namespace AirportOfficeTicket
     /// </summary>
     public partial class WndLogon : Window
     {
-        List<string> accounts = new List<string>();
+        List<string> accounts = new List<string>();       //Массив для проверки данных
         public WndLogon()
         {
             InitializeComponent();
-            downloadAccounts();
+            downloadAccounts();        //Вызов метода для загрузки аккаунтов в массив
         }
+        /// <summary>
+        /// Метод downloadAccounts
+        /// Читает текстовый документ построчно
+        /// </summary>
         private void downloadAccounts()
         {
             StreamReader stream = new StreamReader("Logon.txt");
@@ -35,6 +39,11 @@ namespace AirportOfficeTicket
             }
         }
         private int counter = 0;
+        /// <summary>
+        /// Обработчик события на кнопку
+        /// Осуществляет авторизацию в системе
+        /// Также ограничивает кол-во неудачных попыток
+        /// </summary>
         private async void BtnLog_Click(object sender, RoutedEventArgs e)
         {
             counter++;
@@ -58,6 +67,10 @@ namespace AirportOfficeTicket
             }
             authorize();
         }
+        /// <summary>
+        /// Метод authorize
+        /// Осуществляет проверку введённых данных по массиву
+        /// </summary>
         private void authorize()
         {
             for (int i = 0; i < accounts.Count; i++)
@@ -90,6 +103,10 @@ namespace AirportOfficeTicket
             MessageBox.Show("Логин введён неверно! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
+        /// <summary>
+        /// Обработчик нажатия на checkbox
+        /// Осуществляет управление видимостью элементов с паролем
+        /// </summary>
         private void ChckbPass_Click(object sender, RoutedEventArgs e)
         {
             if (ChckbPass.IsChecked == true)
@@ -105,6 +122,10 @@ namespace AirportOfficeTicket
                 Passbx.Visibility= Visibility.Visible;
             }
         }
+        /// <summary>
+        /// Обработчик изменения содержимого textbox
+        /// Осуществляет управление активностью элементов в зависимости от наличия текста в textbox
+        /// </summary>
         private void TxtbLogin_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (TxtbLogin.Text != "")
